@@ -1,1 +1,76 @@
-Line1
+import paramiko  # For SSH access
+import platform  # To determine management interface OS
+
+# Gather device information functions (placeholders to be implemented)
+def gather_ups_info(ssh_client):
+    # Retrieve UPS model, capacity, battery status, load, and runtime
+    # Implementation depends on UPS vendor and management interface
+    pass
+
+def gather_server_info(ssh_client):
+    # Retrieve server manufacturer, model, CPU, memory, storage, OS, and status
+    # May involve executing commands or parsing configuration files
+    pass
+
+def gather_vm_info(ssh_client):
+    # Retrieve VM information from hypervisor or management tools
+    pass
+
+def gather_switch_info(ssh_client):
+    # Retrieve switch model, ports, VLANs, and link status
+    # Implementation depends on switch vendor and management interface
+    pass
+
+def gather_router_info(ssh_client):
+    # Retrieve router model, interfaces, routing tables, and BGP peers
+    # Implementation depends on router vendor and management interface
+    pass
+
+def gather_network_info(ssh_client):
+    # Retrieve subnet, IP addresses, and reachability information
+    # May involve using network scanning tools or parsing routing tables
+    pass
+
+# Main logic
+def collect_datacenter_info():
+    datacenter_data = {}
+    devices = ["ups1", "server1", "switch1", "router1"]  # Replace with actual device names/IPs
+
+    for device in devices:
+        ssh_client = paramiko.SSHClient()
+        ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh_client.connect(device, username="username", password="password")  # Replace with credentials
+
+        management_os = platform.system()  # Determine OS for command execution
+
+        if management_os == "Linux":
+            # Execute Linux-specific commands to gather information
+            pass
+        elif management_os == "Windows":
+            # Execute Windows-specific commands to gather information
+            pass
+        else:
+            # Handle other operating systems or unknown cases
+            pass
+
+        # Call appropriate functions based on device type
+        if "ups" in device:
+            datacenter_data[device] = gather_ups_info(ssh_client)
+        elif "server" in device:
+            datacenter_data[device] = gather_server_info(ssh_client)
+            # Gather VM information if applicable
+        elif "switch" in device:
+            datacenter_data[device] = gather_switch_info(ssh_client)
+        elif "router" in device:
+            datacenter_data[device] = gather_router_info(ssh_client)
+        else:
+            # Handle other device types or unknown cases
+            pass
+
+        ssh_client.close()
+
+    # Present or store the gathered data as needed (manually for now)
+    print(datacenter_data)
+
+# Execute the data collection
+collect_datacenter_info()
